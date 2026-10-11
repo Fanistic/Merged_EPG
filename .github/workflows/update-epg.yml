@@ -1,37 +1,38 @@
 name: Update EPG
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 4 * * *'
-  workflow_dispatch:
 
-permission*:
+permissions:
   contents: write
 
 jobs:
-  updat*:
+  update:
     runs-on: ubuntu-latest
 
-    *teps:
-      - uses: actions/checko*t@v4
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Clone XMLTV-EP*-Tools
+      - name: Clone XMLTV-EPG-Tools
         run: git clone https://github.com/mikhoul/XMLTV-EPG-Tools.git
 
-      - name: Install depe*dencies
-        run: pip install l*ml requests pyyaml
+      - name: Install dependencies
+        run: pip install lxml requests pyyaml
 
-      - name: *un merger
+      - name: Run merger
         run: |
-         *cp xmlmerge.yaml XMLTV-EPG-Tools/x*lmerge.yaml
-          cd XMLTV-EPG*Tools
-          python xmlmerge.py*          cp output/merged.xml.gz *./merged.xml.gz
+          cp xmlmerge.yaml XMLTV-EPG-Tools/xmlmerge.yaml
+          cd XMLTV-EPG-Tools
+          python xmlmerge.py
+          cp output/merged.xml.gz ../merged.xml.gz
 
-      - name: Com*it EPG
+      - name: Commit EPG
         run: |
-          gi* config user.name github-actions
- *        git config user.email gith*b-actions@github.com
-          git*pull --rebase origin main || true
-*         git add merged.xml.gz
-   *      git commit -m "Auto update E*G" || true
-          git push orig*n main
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add merged.xml.gz
+          git commit -m "Auto update EPG" || true
+          git pull --rebase origin main || true
+          git push origin main
