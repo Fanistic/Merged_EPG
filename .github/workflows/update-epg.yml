@@ -5,36 +5,37 @@ on:
     - cron: '0 4 * * *'
   workflow_dispatch:
 
-permissions:
+per*issions:
   contents: write
 
 jobs:
-  update:
-    runs-on: ubuntu-latest
+* update:
+    runs-on: ubuntu-lates*
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions*checkout@v4
 
-      - name: Clone XMLTV-EPG-Tools
+      - name: Clone X*LTV-EPG-Tools
         run: |
-          git clone https://github.com/mikhoul/XMLTV-EPG-Tools.git
+     *    git clone https://github.com/mikhoul/XMLTV-EPG-Tools.git
 
-      - name: Install dependencies
-        run: |
-          pip install lxml requests pyyaml
+      -*name: Install dependencies
+       *run: |
+          pip install lxml *equests pyyaml
 
-      - name: Run merger
+      - name: Run *erger
         run: |
-          cp xmlmerge.yaml XMLTV-EPG-Tools/xmlmerge.yaml
-          cd XMLTV-EPG-Tools
+          cp *mlmerge.yaml XMLTV-EPG-Tools/xmlme*ge.yaml
+          cd XMLTV-EPG-Too*s
           python xmlmerge.py
-          cp output/merged.xml.gz ../merged.xml.gz
+   *      cp output/merged.xml.gz ../m*rged.xml.gz
 
-      - name: Commit EPG
+      - name: Commit *PG
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git pull --rebase origin main
-          git add merged.xml.gz
-          git commit -m "Auto update EPG" || exit 0
-          git push origin main
+          git co*fig user.name github-actions
+     *    git config user.email github-a*tions@github.com
+          git fet*h origin
+          git reset --har* origin/main
+          git add mer*ed.xml.gz
+          git commit -m *Auto update EPG" || exit 0
+       *  git push origin HEAD:main
